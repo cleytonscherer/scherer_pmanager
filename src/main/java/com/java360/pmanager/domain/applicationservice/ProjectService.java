@@ -7,11 +7,17 @@ import com.java360.pmanager.infrascructure.dto.SaveProjectDataDTO;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class ProjectService {
+
+//    private static final Logger LOGGER = LoggerFactory.getLogger(ProjectService.class);
 
     private final ProjectRepository projectRepository;
 
@@ -26,6 +32,9 @@ public class ProjectService {
                 .build();
 
         projectRepository.save(project);
+
+//        System.out.println(project);
+        log.info("Project created: {} ", project);
 
         return project;
     }
