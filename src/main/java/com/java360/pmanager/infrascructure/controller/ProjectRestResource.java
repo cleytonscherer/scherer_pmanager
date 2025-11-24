@@ -7,10 +7,7 @@ import com.java360.pmanager.infrascructure.dto.SaveProjectDataDTO;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
 
@@ -19,6 +16,7 @@ import static com.java360.pmanager.infrascructure.controller.RestConstants.PATH_
 @RestController
 @RequestMapping(PATH_PROJECT)
 @RequiredArgsConstructor
+@SuppressWarnings("unused")
 public class ProjectRestResource {
 
     private final ProjectService projectService;
@@ -29,5 +27,11 @@ public class ProjectRestResource {
         return ResponseEntity
                 .created(URI.create(PATH_PROJECT + "/" + project.getId()))
                 .body(ProjectDTO.create(project));
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<ProjectDTO> loadProject(@PathVariable("id") String projectId) {
+        Project project = projectService.loadProject(projectId);
+        return ResponseEntity.ok(ProjectDTO.create(project));
     }
 }
