@@ -1,6 +1,7 @@
 package com.java360.pmanager.domain.applicationservice;
 
 import com.java360.pmanager.domain.entity.Project;
+import com.java360.pmanager.domain.exception.InvalidProjectStatusException;
 import com.java360.pmanager.domain.exception.ProjectNotFoundException;
 import com.java360.pmanager.domain.model.ProjectStatus;
 import com.java360.pmanager.domain.repository.ProjectRepository;
@@ -44,6 +45,33 @@ public class ProjectService {
         return projectRepository
                 .findById(projectId)
                 .orElseThrow(() -> new ProjectNotFoundException(projectId));
+    }
+
+    @Transactional
+    public void deleteProject(String projectId) {
+        Project project = loadProject(projectId);
+        projectRepository.delete(project);
+    }
+
+    @Transactional
+    public Project updateProject(String projectId, SaveProjectDataDTO saveProjectData) {
+        Project project = loadProject(projectId);
+
+        project.setName(saveProjectData.getName());
+        project.setDescription(saveProjectData.getDescription());
+        project.setInitialDate(saveProjectData.getInitialDate());
+        project.setFinalDate(saveProjectData.getFinalDate());
+        project.setStatus(convertToProjectStatus(saveProjectData.getStatus()));
+
+        return project;
+    }
+
+    private ProjectStatus convertToProjectStatus(String statusStr) {
+        try {
+            return ProjectStatus.valueOf(statusStr);
+        } catch (IllegalArgumentException | NullPointerException e) {
+            throw new InvalidProjectStatusException(statusStr);
+        }
     }
 
 }
