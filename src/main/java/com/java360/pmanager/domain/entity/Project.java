@@ -8,6 +8,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Entity
 @Table(name = "project")
@@ -37,4 +38,14 @@ public class Project {
     @Column(name = "status", nullable = false)
     @Enumerated(EnumType.STRING)
     private ProjectStatus   status;
+
+    @ManyToMany
+    @JoinTable(
+            name = "project_member",
+            joinColumns = @JoinColumn(name = "project_id"),
+            foreignKey = @ForeignKey(name = "fk_project"),
+            inverseJoinColumns = @JoinColumn(name = "member_id"),
+            inverseForeignKey = @ForeignKey(name = "fk_member")
+    )
+    private List<Member> members;
 }

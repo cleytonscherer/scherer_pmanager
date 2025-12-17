@@ -9,6 +9,7 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 
@@ -38,7 +39,7 @@ public class MemberService {
         return member;
     }
 
-    public Member loadMember(String memberId) {
+    public Member loadMemberById(String memberId) {
         return memberRepository
                 .findByIdAndDeleted(memberId, false)
                 .orElseThrow( () -> new MemberNotFoundException(memberId));
@@ -46,7 +47,7 @@ public class MemberService {
 
     @Transactional
     public void deleteMember(String memberId) {
-        Member member = loadMember(memberId);
+        Member member = loadMemberById(memberId);
         member.setDeleted(true);
     }
 
@@ -57,12 +58,27 @@ public class MemberService {
             throw new DuplicateMemberException(saveMemberData.getEmail());
         }
 
-        Member member = loadMember(memberId);
+        Member member = loadMemberById(memberId);
 
         member.setName(saveMemberData.getName());
         member.setEmail(saveMemberData.getEmail());
 
         return member;
+    }
+
+    public List<Member> findMembers(String email) {
+        List<Member> members;
+
+        if (Objects.isNull(email)) {
+            members = memberRepository
+                    .findAllNotDeleted();
+        } else {
+            members = memberRepository
+                    .findByEmailAndDeleted(email, false)
+                    .map(List::of)
+                    .orElse(List.of());
+        }
+        return members;
     }
 
     private boolean existsMemberWithEmail(String email, String idToExclude) {

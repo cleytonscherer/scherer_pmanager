@@ -33,14 +33,14 @@ public class MemberRestResource {
 
     @GetMapping("/{id}")
     public ResponseEntity<MemberDTO> loadMemberById(@PathVariable("id") String memberId) {
-        Member member = memberService.loadMember(memberId);
+        Member member = memberService.loadMemberById(memberId);
 
         return ResponseEntity.ok(MemberDTO.create(member));
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<MemberDTO> deleteMember(@PathVariable("id") String memberId) {
-        memberService.loadMember(memberId);
+        memberService.loadMemberById(memberId);
 
         return ResponseEntity.noContent().build();
     }
@@ -59,6 +59,8 @@ public class MemberRestResource {
     public ResponseEntity<List<MemberDTO>> findMembers(
             @RequestParam(value = "email", required = false) String email
     ) {
+        List<Member> members = memberService.findMembers(email);
 
+        return ResponseEntity.ok(members.stream().map(MemberDTO::create).toList());
     }
 }
