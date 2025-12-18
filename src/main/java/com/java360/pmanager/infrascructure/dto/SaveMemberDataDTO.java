@@ -6,7 +6,7 @@ import jakarta.validation.constraints.Size;
 import lombok.Data;
 
 @Data
-public class SaveMemberDataDto {
+public class SaveMemberDataDTO {
 
     @NotNull(message = "Nome do Membro deve ser informado")
     @Size(min = 1, max = 100, message = "Nome deve ter no máximo 100 caracteres")

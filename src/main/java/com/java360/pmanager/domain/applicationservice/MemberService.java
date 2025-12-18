@@ -4,7 +4,7 @@ import com.java360.pmanager.domain.entity.Member;
 import com.java360.pmanager.domain.exception.DuplicateMemberException;
 import com.java360.pmanager.domain.exception.MemberNotFoundException;
 import com.java360.pmanager.domain.repository.MemberRepository;
-import com.java360.pmanager.infrascructure.dto.SaveMemberDataDto;
+import com.java360.pmanager.infrascructure.dto.SaveMemberDataDTO;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -20,7 +20,7 @@ public class MemberService {
     private final MemberRepository memberRepository;
 
     @Transactional
-    public Member createMember(SaveMemberDataDto saveMemberData) {
+    public Member createMember(SaveMemberDataDTO saveMemberData) {
 
         if (existsMemberWithEmail(saveMemberData.getEmail(), null)) {
             throw new DuplicateMemberException(saveMemberData.getEmail());
@@ -52,7 +52,7 @@ public class MemberService {
     }
 
     @Transactional
-    public Member updateMember(String memberId, SaveMemberDataDto saveMemberData) {
+    public Member updateMember(String memberId, SaveMemberDataDTO saveMemberData) {
 
         if (existsMemberWithEmail(saveMemberData.getEmail(), memberId)) {
             throw new DuplicateMemberException(saveMemberData.getEmail());

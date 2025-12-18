@@ -3,7 +3,7 @@ package com.java360.pmanager.infrascructure.controller;
 import com.java360.pmanager.domain.applicationservice.MemberService;
 import com.java360.pmanager.domain.entity.Member;
 import com.java360.pmanager.infrascructure.dto.MemberDTO;
-import com.java360.pmanager.infrascructure.dto.SaveMemberDataDto;
+import com.java360.pmanager.infrascructure.dto.SaveMemberDataDTO;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -23,7 +23,7 @@ public class MemberRestResource {
     private final MemberService memberService;
 
     @PostMapping
-    public ResponseEntity<MemberDTO> createMember(@RequestBody @Valid SaveMemberDataDto saveMemberData) {
+    public ResponseEntity<MemberDTO> createMember(@RequestBody @Valid SaveMemberDataDTO saveMemberData) {
         Member member = memberService.createMember(saveMemberData);
 
         return ResponseEntity
@@ -48,7 +48,7 @@ public class MemberRestResource {
     @PutMapping("/{id}")
     public ResponseEntity<MemberDTO> updateMember(
             @PathVariable("id") String memberId,
-            @RequestBody @Valid SaveMemberDataDto saveMemberData
+            @RequestBody @Valid SaveMemberDataDTO saveMemberData
     ) {
         Member member = memberService.updateMember(memberId, saveMemberData);
 

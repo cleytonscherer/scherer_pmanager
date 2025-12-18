@@ -48,4 +48,7 @@ public class Project {
             inverseForeignKey = @ForeignKey(name = "fk_member")
     )
     private List<Member> members;
+
+    @OneToMany(mappedBy = "project", orphanRemoval = true)
+    private List<Task> tasks;
 }
