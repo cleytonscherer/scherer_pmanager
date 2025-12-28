@@ -6,14 +6,20 @@ spring:
     properties:
       hibernate:
         format_sql: true
-  h2:
-    console:
-      enabled: true
+    hibernate:
+      ddl-auto: update
+  #  h2:
+#    console:
+#      enabled: true
   datasource:
-    url: jdbc:h2:mem:test
-    driverClassName: org.h2.Driver
-    username: sa
-    password:
+    url: jdbc:mysql://localhost:3306/pmanagerdb
+    driverClassName: com.mysql.cj.jdbc.Driver
+    username: root
+    password: root
+#    url: jdbc:h2:mem:test
+#    driverClassName: org.h2.Driver
+#    username: sa
+#    password:
   jackson:
     default-property-inclusion: non_null
 server:
